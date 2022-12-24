@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     
- 
+
 <metaname='viewport'content='width=device-width,initial-scale=1.0'>
 <style>
 
 
+#imagem{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    right: 20px;
 
-
+}
 #linhasuperior{
 position:fixed;
-top:60px;
+top:90px;
 left:10px;
 width:800px;
 right:10px;
@@ -20,6 +26,8 @@ right:10px;
 
 #titulo2{
 position:fixed;
+color: hsl(225, 46%, 33%);
+/* text-align: center; */
 top:5px;
 left:230px;
 width:650px;
@@ -27,10 +35,21 @@ right:10px;
 font-size:15px;
 }
 
-#motivo{
+#botoes{
+    position:fixed;
+    top:120px;
+    left:10px;
+    
+    width:800px;
+    right:10px;
+}
+
+#descricao{
 position:fixed;
-top:70px;
+top:160px;
 word-wrap:break-word;
+color: hsl(225, 2%, 58%);
+
 width:680px;
 text-decoration:none;
 word-wrap:break-word;
@@ -41,6 +60,8 @@ padding:1em0;
 
 
  </style>
+<title> Pagina Principal</title>
+
 </head>
 
 <body> 
@@ -50,14 +71,20 @@ padding:1em0;
  <hr size=1px; width=800px; align=center; />
 </div>
 <div id=titulo2>
- <font size='2' face='Avenir'>
- <h3>Termo de uso</h3>
+ <font size='5' face='helvetica'>
+ <h3>PepMed</h3>
  </font>
+
 </div>
 
+<div id="imagem">
+        <img src="iconen-40.png" />
 
-<div id=motivo>
- <pre><font size='2' face='Avenir'> 
+</div>
+<div id=descricao>
+
+
+ <pre><font size='2' face='helvetica'> 
     Este aplicativo foi desenvolvido para facilitar a sua rotina.
     Permitindo ter em mãos todos os seus clientes em uma agenda incrível.
 
@@ -75,9 +102,21 @@ padding:1em0;
     </ol>
     
    
+
      </font>
     
     </pre>
+    <div id="botoes">
+
+
+
+        <a href="file:///Users/lucianosouto/Desktop/site/pagina.html"><button style="background: #204786; border-radius: 6px; padding: 10px; cursor: pointer; color: #fff; border: none; font-size: 16px;">Home</button></a>
+        <a href="file:///Users/lucianosouto/Desktop/site/suporte.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue;  font-size: 16px;">Suporte</button></a>
+        <a href="file:///Users/lucianosouto/Desktop/site/dicas.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue;  font-size: 16px;">Dicas</button></a>
+        <a href="file:///Users/lucianosouto/Desktop/site/sugestao.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue; font-size: 16px;">Sugestões</button></a>
+    </div>  
+
+    
 </div>
 
 
