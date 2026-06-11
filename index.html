@@ -1,130 +1,908 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iPepMed Premium | Prontuário Eletrônico Médico</title>
 
-<metaname='viewport'content='width=device-width,initial-scale=1.0'>
-<style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    }
 
+    body {
+      min-height: 100vh;
+      color: #18181b;
+      background: linear-gradient(135deg, #ffe1db 0%, #fff7ed 45%, #e0f7ff 100%);
+      overflow-x: hidden;
+    }
 
-#imagem{
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    right: 20px;
+    .blur-aura {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
 
-}
-#linhasuperior{
-position:fixed;
-top:90px;
-left:10px;
-width:800px;
-right:10px;
-}
+    .aura-1, .aura-2 {
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: .45;
+    }
 
-#titulo2{
-position:fixed;
-color: hsl(225, 46%, 33%);
-/* text-align: center; */
-top:5px;
-left:230px;
-width:650px;
-right:10px;
-font-size:15px;
-}
+    .aura-1 {
+      background: #ff9fbd;
+      top: -120px;
+      left: -100px;
+    }
 
-#botoes{
-    position:fixed;
-    top:120px;
-    left:10px;
-    
-    width:800px;
-    right:10px;
-}
+    .aura-2 {
+      background: #7dd3fc;
+      right: -120px;
+      bottom: -120px;
+    }
 
-#descricao{
-position:fixed;
-top:160px;
-word-wrap:break-word;
-color: hsl(225, 2%, 58%);
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(24px);
+      background: rgba(255, 255, 255, .48);
+      border-bottom: 1px solid rgba(255,255,255,.6);
+    }
 
-width:680px;
-text-decoration:none;
-word-wrap:break-word;
-padding:1em0;
-}
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
 
+    .nav {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 18px 40px rgba(0,0,0,.08);
+      font-size: 25px;
+      border: 1px solid rgba(255,255,255,.8);
+    }
 
- </style>
-<title> Pagina Principal</title>
+    .brand h1 {
+      font-size: 22px;
+      letter-spacing: -.04em;
+    }
 
+    .brand p {
+      font-size: 13px;
+      color: #71717a;
+      margin-top: 2px;
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a {
+      color: #52525b;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #0a84ff;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn-primary {
+      background: #0a84ff;
+      color: white;
+      box-shadow: 0 18px 38px rgba(10,132,255,.28);
+    }
+
+    .btn-soft {
+      background: rgba(255,255,255,.65);
+      color: #27272a;
+      border: 1px solid rgba(255,255,255,.75);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      padding: 86px 0 105px;
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: 0 18px 45px rgba(0,0,0,.06);
+      color: #3f3f46;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      backdrop-filter: blur(20px);
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34,197,94,.12);
+    }
+
+    .hero h2 {
+      font-size: clamp(44px, 6vw, 74px);
+      line-height: .98;
+      letter-spacing: -.07em;
+      font-weight: 900;
+      margin-bottom: 28px;
+    }
+
+    .hero h2 span {
+      display: block;
+      color: #0a84ff;
+    }
+
+    .hero p {
+      font-size: 20px;
+      line-height: 1.65;
+      color: #52525b;
+      max-width: 640px;
+      margin-bottom: 34px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 54px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 620px;
+    }
+
+    .stat, .card, .module, .panel {
+      background: rgba(255,255,255,.56);
+      border: 1px solid rgba(255,255,255,.75);
+      backdrop-filter: blur(26px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.08);
+    }
+
+    .stat {
+      border-radius: 28px;
+      padding: 22px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 30px;
+      letter-spacing: -.05em;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: #71717a;
+      font-size: 14px;
+    }
+
+    .app-showcase {
+      position: relative;
+    }
+
+    .device {
+      position: relative;
+      border-radius: 42px;
+      padding: 18px;
+      background: rgba(255,255,255,.45);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: 0 36px 90px rgba(0,0,0,.14);
+      transform: rotate(1.5deg);
+      transition: .35s ease;
+    }
+
+    .device:hover {
+      transform: rotate(0deg) translateY(-4px);
+    }
+
+    .screen {
+      min-height: 560px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,.95), rgba(255,236,243,.86));
+      border: 1px solid rgba(255,255,255,.85);
+      padding: 26px;
+      position: relative;
+    }
+
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .patient {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 22px;
+      background: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 16px 35px rgba(0,0,0,.1);
+    }
+
+    .patient h3 {
+      font-size: 22px;
+      letter-spacing: -.04em;
+    }
+
+    .patient p, .muted {
+      color: #8a8a93;
+      font-size: 14px;
+    }
+
+    .status {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      color: #71717a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .mini-card {
+      min-height: 130px;
+      border-radius: 28px;
+      padding: 22px;
+      background: rgba(255,255,255,.62);
+      box-shadow: 0 20px 50px rgba(0,0,0,.07);
+      border: 1px solid rgba(255,255,255,.8);
+    }
+
+    .mini-card h4 {
+      font-size: 17px;
+      margin-bottom: 18px;
+    }
+
+    .mini-card li {
+      list-style: none;
+      color: #71717a;
+      margin-top: 8px;
+    }
+
+    .vitals {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .vitals strong {
+      font-size: 22px;
+    }
+
+    .floating-card {
+      position: absolute;
+      left: -35px;
+      bottom: -32px;
+      width: 285px;
+      padding: 22px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.8);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,.85);
+      box-shadow: 0 28px 70px rgba(0,0,0,.13);
+    }
+
+    .floating-card small {
+      color: #71717a;
+      font-weight: 600;
+    }
+
+    .floating-card h4 {
+      font-size: 24px;
+      margin: 6px 0;
+    }
+
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 54px;
+    }
+
+    .section-title small {
+      color: #0a84ff;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(34px, 4.5vw, 54px);
+      letter-spacing: -.06em;
+      line-height: 1.05;
+      margin: 12px auto 16px;
+      max-width: 850px;
+    }
+
+    .section-title p {
+      color: #52525b;
+      font-size: 18px;
+      max-width: 740px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .features {
+      padding: 30px 0 86px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      border-radius: 32px;
+      padding: 30px;
+      transition: .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: #eff6ff;
+      font-size: 30px;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 23px;
+      letter-spacing: -.04em;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #52525b;
+      line-height: 1.6;
+    }
+
+    .modules-section {
+      padding: 50px 0 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 58px;
+      align-items: center;
+    }
+
+    .panel {
+      border-radius: 42px;
+      padding: 38px;
+    }
+
+    .panel-head {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .black-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 22px;
+      background: #111;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+    }
+
+    .panel-head h3 {
+      font-size: 32px;
+      letter-spacing: -.05em;
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .module {
+      border-radius: 18px;
+      padding: 15px 16px;
+      color: #3f3f46;
+      font-weight: 700;
+    }
+
+    .content-block small {
+      color: #0a84ff;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .content-block h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: -.06em;
+      line-height: 1.05;
+      margin: 14px 0 28px;
+    }
+
+    .benefit {
+      padding: 22px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.6);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: 0 18px 45px rgba(0,0,0,.06);
+      margin-bottom: 16px;
+    }
+
+    .benefit h4 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .benefit p {
+      color: #52525b;
+      line-height: 1.55;
+    }
+
+    .agenda {
+      padding-bottom: 100px;
+    }
+
+    .agenda-panel {
+      border-radius: 48px;
+      padding: 40px;
+      background: rgba(255,255,255,.48);
+      border: 1px solid rgba(255,255,255,.76);
+      box-shadow: 0 30px 80px rgba(0,0,0,.1);
+      backdrop-filter: blur(28px);
+    }
+
+    .agenda-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .agenda-head small {
+      color: #0a84ff;
+      font-weight: 800;
+    }
+
+    .agenda-head h2 {
+      font-size: clamp(34px, 5vw, 52px);
+      letter-spacing: -.06em;
+      margin-top: 8px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .metric {
+      border-radius: 30px;
+      padding: 30px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 20px 50px rgba(0,0,0,.07);
+    }
+
+    .metric strong {
+      font-size: 44px;
+      letter-spacing: -.06em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .metric span {
+      color: #71717a;
+      font-weight: 600;
+    }
+
+    footer {
+      background: rgba(255,255,255,.34);
+      border-top: 1px solid rgba(255,255,255,.65);
+      backdrop-filter: blur(24px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      padding: 44px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer-content h3 {
+      font-size: 30px;
+      letter-spacing: -.05em;
+      margin-bottom: 8px;
+    }
+
+    .footer-content p {
+      color: #52525b;
+      max-width: 650px;
+    }
+
+    @media (max-width: 980px) {
+      nav {
+        display: none;
+      }
+
+      .hero, .modules-section {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid, .metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-content, .agenda-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .nav .btn {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      .stats, .feature-grid, .metrics, .modules-grid, .app-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .screen {
+        min-height: auto;
+      }
+
+      .floating-card {
+        position: static;
+        width: auto;
+        margin-top: 18px;
+      }
+    }
+  </style>
 </head>
 
-<body> 
-    
+<body>
+  <div class="blur-aura">
+    <div class="aura-1"></div>
+    <div class="aura-2"></div>
+  </div>
 
-<div id=linhasuperior>
- <hr size=1px; width=800px; align=center; />
-</div>
-<div id=titulo2>
- <font size='5' face='helvetica'>
- <h3>PepMed</h3>
- </font>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">🩺</div>
+        <div>
+          <h1>iPepMed Premium</h1>
+          <p>Plataforma clínica inteligente para iPad</p>
+        </div>
+      </div>
 
-</div>
+      <nav>
+        <a href="#modulos">Módulos</a>
+        <a href="#beneficios">Benefícios</a>
+        <a href="#agenda">Agenda</a>
+        <!-- <a href="#contato">Contato</a> -->
+      </nav>
 
-<div id="imagem">
-        <img src="iconen-40.png" />
+      <!-- <a class="btn btn-primary" href="#contato">Solicitar demonstração</a> -->
+    </div>
+  </header>
 
-</div>
-<div id=descricao>
+  <main>
+    <section class="container hero">
+      <div>
+        <div class="badge">
+          <span class="pulse"></span>
+          Interface médica premium inspirada no Apple Health
+        </div>
 
+        <h2>
+          Um novo padrão para o
+          <span>prontuário eletrônico</span>
+        </h2>
 
- <pre><font size='2' face='helvetica'> 
-    Este aplicativo foi desenvolvido para facilitar a sua rotina.
-    Permitindo ter em mãos todos os seus clientes em uma agenda incrível.
+        <p>
+          Desenvolvido para clínicas, consultórios e atendimento hospitalar com foco em performance,
+          experiência premium e produtividade clínica.
+        </p>
 
-    <ol>Este aplicativo é composto pelos itens abaixo.
-        <i>Agenda,</i>
-        <i>Prontuário Eletrônico do Paciente,</i> 
-        <i>Cadastro de paciente,</i>
-        <i>Anamnese,</i>
-        <i>Diagnósticos,</i>
-        <i>Anotações,</i>
-        <i>Alergias,</i>
-        <i>Encaminhamentos,</i>
-        <i>Dashboard.</i>
-        <i></i>
-    </ol>
-    
-   
+        <div class="actions">
+          <a class="btn btn-primary" href="#beneficios">Conhecer plataforma</a>
+          <a class="btn btn-soft" href="#modulos">Ver funcionalidades</a>
+        </div>
 
-     </font>
-    
-    </pre>
-    <div id="botoes">
+        <div class="stats">
+          <div class="stat">
+            <strong>100%</strong>
+            <span>SwiftUI nativo</span>
+          </div>
+          <div class="stat">
+            <strong>SQLite</strong>
+            <span>Banco local seguro</span>
+          </div>
+          <div class="stat">
+            <strong>iPad</strong>
+            <span>Experiência otimizada</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="app-showcase">
+        <div class="device">
+          <div class="screen">
+            <div class="screen-top">
+              <div class="patient">
+                <div class="avatar">AS</div>
+                <div>
+                  <h3>Rosana Santos</h3>
+                  <p>52 anos • Feminino • Pront. 1</p>
+                </div>
+              </div>
+              <div class="status">Consulta em andamento</div>
+            </div>
 
+            <div class="app-grid">
+              <div class="mini-card">
+                <h4>Última consulta</h4>
+                <p class="muted">Resumo clínico, anamnese e histórico do paciente.</p>
+              </div>
 
-        <a href="https://forappmobile.github.io"><button style="background: #204786; border-radius: 6px; padding: 10px; cursor: pointer; color: #fff; border: none; font-size: 16px;">Home</button></a>
-        <a href="https://forappmobile.github.io/suporte.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue;  font-size: 16px;">Suporte</button></a>
-        <a href="https://forappmobile.github.io/dicas.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue;  font-size: 16px;">Dicas</button></a>
-        <a href="https://forappmobile.github.io/sugestao.html"><button style="background: #e2e4e8; border-radius: 6px; padding: 10px; cursor: pointer; color: rgb(48, 16, 106); border: cadetblue; font-size: 16px;">Sugestões</button></a>
+              <div class="mini-card">
+                <h4>Diagnósticos</h4>
+                <ul>
+                  <li>• Diabetes Mellitus</li>
+                </ul>
+              </div>
 
-    </div>  
+              <div class="mini-card">
+                <h4>Sinais vitais</h4>
+                <div class="vitals">
+                  <div><strong>120x80</strong><br><span class="muted">PA</span></div>
+                  <div><strong>17</strong><br><span class="muted">FC</span></div>
+                  <div><strong>78</strong><br><span class="muted">SpO₂</span></div>
+                </div>
+              </div>
 
-    
-</div>
+              <div class="mini-card">
+                <h4>Alergias</h4>
+                <ul>
+                  <li>• Paracetamol</li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
+          <div class="floating-card">
+            <small>Fluxo clínico</small>
+            <h4>Anamnese integrada</h4>
+            <p class="muted">Interface elegante com foco em produtividade médica.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section id="beneficios" class="container features">
+      <div class="section-title">
+        <small>Benefícios</small>
+        <h2>Plataforma construída para alta performance clínica</h2>
+        <p>Visual premium, navegação rápida e estrutura preparada para operação médica moderna.</p>
+      </div>
 
+      <div class="feature-grid">
+        <div class="card">
+          <div class="icon">🩺</div>
+          <h3>Prontuário Inteligente</h3>
+          <p>Anamnese, diagnósticos, sinais vitais, alergias, receitas e exames em um fluxo clínico elegante.</p>
+        </div>
 
+        <div class="card">
+          <div class="icon">📅</div>
+          <h3>Agenda Premium</h3>
+          <p>Gestão de consultas com visual executivo, encaixes, retornos e acompanhamento do dia.</p>
+        </div>
 
-    
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Dashboard Clínico</h3>
+          <p>Indicadores assistenciais e acompanhamento visual do paciente com foco em produtividade.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">📄</div>
+          <h3>Documentos Médicos</h3>
+          <p>Geração de atestados e documentos clínicos com visual profissional e integrado ao PEP.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="modulos" class="container modules-section">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="black-icon">✨</div>
+          <div>
+            <h3>Módulos integrados</h3>
+            <p class="muted">Tudo conectado em uma única experiência</p>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+          <div class="module">Tela inicial clínica</div>
+          <div class="module">Anamnese estruturada</div>
+          <div class="module">Sinais vitais</div>
+          <div class="module">Diagnósticos</div>
+          <div class="module">Alergias</div>
+          <div class="module">Receitas</div>
+          <div class="module">Exames</div>
+          <div class="module">Atestados</div>
+          <div class="module">Agenda médica</div>
+          <div class="module">Indicadores</div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <small>Experiência médica</small>
+        <h2>Navegação fluida e moderna para iPad e ambiente clínico.</h2>
+
+        <div class="benefit">
+          <h4>Performance otimizada</h4>
+          <p>Estrutura preparada para grandes volumes de registros com SwiftUI + SQLite.</p>
+        </div>
+
+        <div class="benefit">
+          <h4>Visual executivo</h4>
+          <p>Glassmorphism sofisticado, tipografia refinada e experiência premium.</p>
+        </div>
+
+        <div class="benefit">
+          <h4>Fluxo clínico inteligente</h4>
+          <p>Organização elegante do prontuário com visão cronológica e agrupamentos clínicos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="agenda" class="container agenda">
+      <div class="agenda-panel">
+        <div class="agenda-head">
+          <div>
+            <small>Agenda médica</small>
+            <h2>Contsrole total da operação clínica</h2>
+          </div>
+          <a class="btn btn-primary" href="#contato">Agendar demonstração</a>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <strong>20</strong>
+            <span>Consultas do dia</span>
+          </div>
+          <div class="metric">
+            <strong>98%</strong>
+            <span>Performance operacional</span>
+          </div>
+          <div class="metric">
+            <strong>iPadOS</strong>
+            <span>Experiência totalmente nativa</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div class="container footer-content">
+      <div>
+        <h3>iPepMed Premium</h3>
+        <p>Plataforma clínica moderna desenvolvida com SwiftUI e foco em experiência médica premium.</p>
+      </div>
+
+      <div class="actions">
+        <!-- <a class="btn btn-primary" href="mailto:contato@seudominio.com">Solicitar apresentação</a>
+        <a class="btn btn-soft" href="mailto:contato@seudominio.com">Entrar em contato</a> -->
+      </div>
+    </div>
+  </footer>
 </body>
-
 </html>
